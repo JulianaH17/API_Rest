@@ -102,14 +102,46 @@ app.post('/api/jogos', (req, res) => {
     //Pegando os dados do body
     const { titulo, desenvolvedora, ano, genero, nota} = req.body;
 
+    //Validação de campo obrigatório
+    if(!titulo || !desenvolvedora || !ano || !genero || !nota){
+        return res.status(400).json({
+            erro: "Todos os campos são obrigatórios"
+        });
+    }
+
+    //Conversão para número
+    const anoNum = parseInt(ano);
+    const notaNum = parseFloat(nota);
+
+    //Verificação se são números válidos
+    if (isNaN(anoNum) || isNaN(notaNum)) {
+        return res.status(400).json({
+            erro: "Ano e nota devem ser números válidos"
+        });
+    }
+
+    //Validação ano e nota positivos
+    if(anoNum <= 0 || notaNum <= 0){
+        return res.status(400).json({
+            erro: "Ano e nota devem ser valores positivos"
+        });
+    }
+
+    //Validação tamanho mínimo
+    if(titulo.length < 3){
+        return res.status(400).json({
+            erro: "O título deve ter pelo menos 3 caracteres"
+        });
+    }
+
     //Criando o objeto do novo jogo
     const novoJogo = {
         id: proximoId++,
         titulo,
         desenvolvedora,
-        ano: parseInt(ano),
+        ano: anoNum,
         genero,
-        nota: parseFloat(nota)
+        nota: notaNum
     };
 
     //Adicionando ao array
