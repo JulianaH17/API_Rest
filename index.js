@@ -63,6 +63,7 @@ app.get('/api/jogos', (req, res) => {
         return direcao === "desc" ? -comparacao : comparacao;
         });
     }
+
     // ?pagina=&limite= - Páginação
     const page = parseInt(pagina);
     const limit = parseInt(limite);
@@ -92,6 +93,31 @@ app.get ('/api/jogos/:id', (req, res) => {
     }
     res.json(jogo);
 })
+
+let proximoId = 11; //Controla o próximo ID
+
+//POST /api/jogos - criando um novo jogo
+app.post('/api/jogos', (req, res) => {
+
+    //Pegando os dados do body
+    const { titulo, desenvolvedora, ano, genero, nota} = req.body;
+
+    //Criando o objeto do novo jogo
+    const novoJogo = {
+        id: proximoId++,
+        titulo,
+        desenvolvedora,
+        ano: parseInt(ano),
+        genero,
+        nota: parseFloat(nota)
+    };
+
+    //Adicionando ao array
+    jogos.push(novoJogo);
+
+    //Retorno do jogo criado com status 201 - concluído com sucesso
+    res.status(201).json(novoJogo);
+});
 
 // 7. Iniciar servidor
 app.listen(PORT, () => {
