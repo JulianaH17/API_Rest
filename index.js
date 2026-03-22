@@ -46,6 +46,16 @@ app.get('/api/jogos', (req, res) => {
         resultado = resultado.filter(j => j.genero.toLowerCase() === categoria.toLowerCase());
     }
 
+    // ?nota_max= - Filtra por nota máxima
+    if(nota_max){
+        resultado = resultado.filter(j => j.nota <= parseFloat(nota_max));
+    }
+
+    // ?nota_min= - Filtra por nota mínima
+    if(nota_min){
+        resultado = resultado.filter(j => j.nota >= parseFloat(nota_min));
+    }
+
     res.json(resultado);
 })
 
