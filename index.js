@@ -38,7 +38,13 @@ let jogos = [
 app.get('/api/jogos', (req, res) => {
     const { categoria, nota_max, nota_min, ordem, direcao, pagina = 1, limite = 10 } = req.query;
 
+    //Lista todos os jogos
     let resultado = jogos;
+
+    // ?categoria= - Filtra por categoria (gênero)
+    if(categoria){
+        resultado = resultado.filter(j => j.genero.toLowerCase() === categoria.toLowerCase());
+    }
 
     res.json(resultado);
 })
