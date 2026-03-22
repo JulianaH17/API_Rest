@@ -61,8 +61,24 @@ app.get('/api/jogos', (req, res) => {
     resultado.sort((a, b) => {
         const comparacao = a.titulo.localeCompare(b.titulo);
         return direcao === "desc" ? -comparacao : comparacao;
+        });
+    }
+    // ?pagina=&limite= - Páginação
+    const page = parseInt(pagina);
+    const limit = parseInt(limite);
+
+    const inicio = (page - 1) * limit;
+    const fim = inicio + limit;
+
+    const dados = resultado.slice(inicio, fim);
+
+    //Retorno com metadados
+    res.json({
+        total: resultado.length,
+        pagina: page,
+        limite: limit,
+        dados
     });
-}
 
     res.json(resultado);
 })
