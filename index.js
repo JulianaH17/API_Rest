@@ -56,6 +56,14 @@ app.get('/api/jogos', (req, res) => {
         resultado = resultado.filter(j => j.nota >= parseFloat(nota_min));
     }
 
+    // ?ordem=titulo - Filtra os titulos dos jogos por ordem alfabética
+    if (ordem === "titulo") {
+    resultado.sort((a, b) => {
+        const comparacao = a.titulo.localeCompare(b.titulo);
+        return direcao === "desc" ? -comparacao : comparacao;
+    });
+}
+
     res.json(resultado);
 })
 
