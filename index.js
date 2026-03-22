@@ -151,6 +151,72 @@ app.post('/api/jogos', (req, res) => {
     res.status(201).json(novoJogo);
 });
 
+//PUT /api/jogos/:id - atualiza o jogo
+app.put('/api/jogos/:id', (req, res) => {
+
+    //Pega o ID da URL
+    const id = parseInt(req.params.id);
+
+    //Busca o jogo no array
+    const jogo = jogos.find(j => j.id === id);
+
+    //Verifica se existe
+    if(!jogo){
+        return res.status(404).json({
+            erro: "Jogo não encontrado"
+        });
+    }
+
+    //Extrair dados do body
+    const { titulo, desenvolvedora, ano, genero, nota} = req.body;
+
+    //Validações (igual do POST!!!)
+
+    //Validação de campo obrigatório
+    if(!titulo || !desenvolvedora || !ano || !genero || !nota){
+        return res.status(400).json({
+            erro: "Todos os campos são obrigatórios"
+        });
+    }
+
+    //Conversão para número
+    const anoNum = parseInt(ano);
+    const notaNum = parseFloat(nota);
+
+    //Verificação se são números válidos
+    if (isNaN(anoNum) || isNaN(notaNum)) {
+        return res.status(400).json({
+            erro: "Ano e nota devem ser números válidos"
+        });
+    }
+
+    //Validação ano e nota positivos
+    if(anoNum <= 0 || notaNum <= 0){
+        return res.status(400).json({
+            erro: "Ano e nota devem ser valores positivos"
+        });
+    }
+
+    //Validação tamanho mínimo
+    if(titulo.length < 3){
+        return res.status(400).json({
+            erro: "O título deve ter pelo menos 3 caracteres"
+        });
+    }
+
+    //Atualizar os campos dos jogos
+    jogo.titulo = titulo;
+    jogo.desenvolvedora = desenvolvedora;
+    jogo.ano = anoNum;
+    jogo.genero = genero;
+    jogo.nota = notaNum;
+
+    //Retorna o jogo atualizado com 200 OK
+    res.json({
+        mensagem: "Jogo atualizado com sucesso", jogo
+    });
+});
+
 // 7. Iniciar servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
