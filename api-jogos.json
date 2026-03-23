@@ -1,0 +1,207 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: API Jogos
+meta:
+  id: wrk_2268cec085444156bb63643357833d4c
+  created: 1774231826789
+  modified: 1774231826789
+  description: ""
+collection:
+  - url: localhost:8000/api/jogos
+    name: Listar os jogos
+    meta:
+      id: req_659ca4dee82d465b92d803edca2b8ff8
+      created: 1774231874639
+      modified: 1774232568992
+      isPrivate: false
+      description: ""
+      sortKey: -1774231874639
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8000/api/jogos/3
+    name: Buscar por ID
+    meta:
+      id: req_04cb1b5c660b46d286b4c27cb613fa4c
+      created: 1774231937435
+      modified: 1774231972625
+      isPrivate: false
+      description: ""
+      sortKey: -1774231937435
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8000/api/jogos?categoria=fps
+    name: Filtrar por categoria
+    meta:
+      id: req_d38cb8518fa545ac935b679b5937d550
+      created: 1774231975654
+      modified: 1774232001790
+      isPrivate: false
+      description: ""
+      sortKey: -1774231975654
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8000/api/jogos?ordem=titulo
+    name: Filtrar por título (ordem alfabética)
+    meta:
+      id: req_28916e70a1dc4a40b5ad00368930cb90
+      created: 1774232013022
+      modified: 1774232062923
+      isPrivate: false
+      description: ""
+      sortKey: -1774232013022
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8000/api/jogos
+    name: Criar jogo
+    meta:
+      id: req_57be5ab586da46f2b1227be78898f332
+      created: 1774232076686
+      modified: 1774232618618
+      isPrivate: false
+      description: ""
+      sortKey: -1774232076686
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "titulo": "Fortnite",
+          "desenvolvedora": "Epic Games",
+          "ano": 2017,
+          "genero": "Battle Royale",
+          "nota": 8
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8000/api/jogos
+    name: Atualizar jogo
+    meta:
+      id: req_dd2d5fea4f4d4645893286a7f8073fcc
+      created: 1774232193385
+      modified: 1774232620558
+      isPrivate: false
+      description: ""
+      sortKey: -1774232193385
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "titulo": "Valorant Atualizado",
+          "desenvolvedora": "Riot Games",
+          "ano": 2021,
+          "genero": "FPS",
+          "nota": 9
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8000/api/jogos/14
+    name: Remover jogo
+    meta:
+      id: req_d428ff3ee4064ff1bc7ed765914eb162
+      created: 1774232258470
+      modified: 1774232632254
+      isPrivate: false
+      description: ""
+      sortKey: -1774232258470
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_fcc19eea8a8dcb01cd5662ccbbf6e9d3b83f3909
+    created: 1774231826795
+    modified: 1774231826795
+environments:
+  name: Base Environment
+  meta:
+    id: env_fcc19eea8a8dcb01cd5662ccbbf6e9d3b83f3909
+    created: 1774231826792
+    modified: 1774231826792
+    isPrivate: false
