@@ -21,57 +21,62 @@ app.get('/dados', (req, res) => {
     });
 });
 
-
-
-//GET /api/jogos
+// GET /api/jogos
 app.get('/api/jogos', (req, res) => {
     const { categoria, nota_max, nota_min, ordem, direcao, pagina = 1, limite = 10 } = req.query;
 
     //Lista todos os jogos
-    let resultado = [...jogos];
+    let sql = "SELECT * FROM jogos WHERE 1=1";
+    let params = [];
 
     // ?categoria= - Filtra por categoria (gênero)
-    if(categoria){
-        resultado = resultado.filter(j => j.genero.toLowerCase() === categoria.toLowerCase());
+    if (categoria) {
+        sql += " AND LOWER(genero) = LOWER(?)";
+        params.push(categoria);
     }
 
     // ?nota_max= - Filtra por nota máxima
-    if(nota_max){
-        resultado = resultado.filter(j => j.nota <= parseFloat(nota_max));
+    if (nota_max) {
+        sql += " AND nota <= ?";
+        params.push(parseFloat(nota_max));
     }
 
     // ?nota_min= - Filtra por nota mínima
-    if(nota_min){
-        resultado = resultado.filter(j => j.nota >= parseFloat(nota_min));
+    if (nota_min) {
+        sql += " AND nota >= ?";
+        params.push(parseFloat(nota_min));
     }
 
     // ?ordem=titulo - Filtra os titulos dos jogos por ordem alfabética
     if (ordem === "titulo") {
-    resultado.sort((a, b) => {
-        const comparacao = a.titulo.localeCompare(b.titulo);
-        return direcao === "desc" ? -comparacao : comparacao;
-        });
+        sql += ` ORDER BY titulo ${direcao === "desc" ? "DESC" : "ASC"}`;
     }
 
-    // ?pagina=&limite= - Páginação
-    const page = parseInt(pagina);
-    const limit = parseInt(limite);
+   // ?pagina=&limite= - Páginação (garantindo um número válido)
+    const page = parseInt(pagina) || 1;
+    const limit = parseInt(limite) || 10;
+    const offset = (page - 1) * limit;
 
-    const inicio = (page - 1) * limit;
-    const fim = inicio + limit;
+    sql += " LIMIT ? OFFSET ?";
+    params.push(limit, offset);
 
-    const dados = resultado.slice(inicio, fim);
+    // Retorno
+    try {
+        const stmt = db.prepare(sql);
+        const rows = stmt.all(...params);
 
-    //Retorno com metadados
-    res.json({
-        total: resultado.length,
-        pagina: page,
-        limite: limit,
-        dados
-    });
+        res.json({
+            pagina: page,
+            limite: limit,
+            total: rows.length,
+            dados: rows
+        });
 
-    res.json(resultado);
-})
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ erro: err.message });
+    }
+});
 
 //GET /api/jogos/:id - buscando os jogos por ID
 app.get ('/api/jogos/:id', (req, res) => {
