@@ -79,16 +79,24 @@ app.get('/api/jogos', (req, res) => {
 });
 
 //GET /api/jogos/:id - buscando os jogos por ID
-app.get ('/api/jogos/:id', (req, res) => {
-    const jogo = jogos.find(j => j.id === parseInt(req.params.id));
+app.get('/api/jogos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
 
-    if (!jogo){
-        return res.status(404).json({erro: "Jogo não encontrado!"});
+    try {
+        const jogo = db
+            .prepare("SELECT * FROM jogos WHERE id = ?")
+            .get(id);
+
+        if (!jogo) {
+            return res.status(404).json({ erro: "Jogo não encontrado!" });
+        }
+
+        res.json(jogo);
+
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
     }
-    res.json(jogo);
-})
-
-let proximoId = 11; //Controla o próximo ID
+});
 
 //POST /api/jogos - criando um novo jogo
 app.post('/api/jogos', (req, res) => {
