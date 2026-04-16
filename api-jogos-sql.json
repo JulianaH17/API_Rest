@@ -1,0 +1,184 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: API Jogos com SQLite
+meta:
+  id: wrk_15d096965e2446f29f366f3dfa606d81
+  created: 1776275937056
+  modified: 1776275937056
+  description: ""
+collection:
+  - url: http://localhost:8000/api/jogos
+    name: Exibir todos os jogos (página 1)
+    meta:
+      id: req_090bce98739e4fbcb7ab5ae141d91db0
+      created: 1776275968400
+      modified: 1776359612937
+      isPrivate: false
+      description: ""
+      sortKey: -1776275968400
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/api/jogos/3
+    name: Buscando jogo por ID
+    meta:
+      id: req_0f59e9cefa8e4b368f461b522132fa99
+      created: 1776280965927
+      modified: 1776281282614
+      isPrivate: false
+      description: ""
+      sortKey: -1776280965927
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/api/jogos
+    name: Criando/adicionando novo jogo
+    meta:
+      id: req_651f793949674b7aaef640454ca84391
+      created: 1776305438864
+      modified: 1776360228976
+      isPrivate: false
+      description: ""
+      sortKey: -1776305438864
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "titulo": "Celeste",
+          "desenvolvedora": "Matt Makes Games",
+          "ano": 2018,
+          "genero": "Plataforma",
+          "nota": 10
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/api/jogos?pagina=2
+    name: Exibindo jogos da pagina 2
+    meta:
+      id: req_d32eaf73a0594d0aae90412337e0d646
+      created: 1776305561593
+      modified: 1776360258558
+      isPrivate: false
+      description: ""
+      sortKey: -1776305561593
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/api/jogos/13
+    name: Atualizando um jogo por ID
+    meta:
+      id: req_edef275a47834587a3919a76e7aba5d3
+      created: 1776359505351
+      modified: 1776360056238
+      isPrivate: false
+      description: ""
+      sortKey: -1776359505351
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "titulo": "Minecraft Atualizado",
+          "desenvolvedora": "Mojang",
+          "ano": 2011,
+          "genero": "Sandbox",
+          "nota": 10
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/api/jogos/12
+    name: Deleta um jogo existente no banco por ID
+    meta:
+      id: req_0d56c21c80fa45af8290896cd3ff2cfe
+      created: 1776359901591
+      modified: 1776360111460
+      isPrivate: false
+      description: ""
+      sortKey: -1776359901591
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_ee439aaaaf478b36933ee6485afe6cc07b09c927
+    created: 1776275937068
+    modified: 1776275937068
+environments:
+  name: Base Environment
+  meta:
+    id: env_ee439aaaaf478b36933ee6485afe6cc07b09c927
+    created: 1776275937065
+    modified: 1776275937065
+    isPrivate: false
