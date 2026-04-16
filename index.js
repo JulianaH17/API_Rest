@@ -240,24 +240,25 @@ app.put('/api/jogos/:id', (req, res) => {
 //DELETE /api/jogos/:id - deleta um dos jogos já existentes
 app.delete('/api/jogos/:id', (req, res) => {
 
-    //Pegar o ID da URL
     const id = parseInt(req.params.id);
 
-    //Encontrar índice do jogo no array
-    const index = jogos.findIndex(j => j.id === id);
+    try {
+        const stmt = db.prepare("DELETE FROM jogos WHERE id = ?");
+        const result = stmt.run(id);
 
-    //Verificação para saber se existe
-    if(index === -1){
-        return res.status(404).json({
-            erro: "Jogo não encontrado"
-        });
+        //Verificação para saber se existe
+        if (result.changes === 0) {
+            return res.status(404).json({
+                erro: "Jogo não encontrado"
+            });
+        }
+
+        //Retornar 204 No Content (sem body)
+        res.status(204).send();
+
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
     }
-
-    //Remover do array
-    jogos.splice(index, 1);
-
-    //Retornar 204 No Content (sem body)
-    res.status(204).send();
 });
 
 // 7. Iniciar servidor
