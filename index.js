@@ -136,21 +136,33 @@ app.post('/api/jogos', (req, res) => {
         });
     }
 
-    //Criando o objeto do novo jogo
-    const novoJogo = {
-        id: proximoId++,
-        titulo,
-        desenvolvedora,
-        ano: anoNum,
-        genero,
-        nota: notaNum
-    };
+    //Criando o objeto do novo jogo e inserindo na tabela
+    try {
+        const stmt = db.prepare(`
+            INSERT INTO jogos (titulo, desenvolvedora, ano, genero, nota)
+            VALUES (?, ?, ?, ?, ?)
+        `);
 
-    //Adicionando ao array
-    jogos.push(novoJogo);
+        const result = stmt.run(
+            titulo,
+            desenvolvedora,
+            anoNum,
+            genero,
+            notaNum
+        );
 
-    //Retorno do jogo criado com status 201 - concluído com sucesso
-    res.status(201).json(novoJogo);
+        res.status(201).json({
+            id: result.lastInsertRowid,
+            titulo,
+            desenvolvedora,
+            ano: anoNum,
+            genero,
+            nota: notaNum
+        });
+
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
 });
 
 //PUT /api/jogos/:id - atualiza o jogo
