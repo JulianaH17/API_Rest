@@ -168,26 +168,12 @@ app.post('/api/jogos', (req, res) => {
 //PUT /api/jogos/:id - atualiza o jogo
 app.put('/api/jogos/:id', (req, res) => {
 
-    //Pega o ID da URL
     const id = parseInt(req.params.id);
 
-    //Busca o jogo no array
-    const jogo = jogos.find(j => j.id === id);
-
-    //Verifica se existe
-    if(!jogo){
-        return res.status(404).json({
-            erro: "Jogo não encontrado"
-        });
-    }
-
-    //Extrair dados do body
-    const { titulo, desenvolvedora, ano, genero, nota} = req.body;
-
-    //Validações (igual do POST!!!)
+    const { titulo, desenvolvedora, ano, genero, nota } = req.body;
 
     //Validação de campo obrigatório
-    if(!titulo || !desenvolvedora || !ano || !genero || !nota){
+    if (!titulo || !desenvolvedora || !ano || !genero || !nota) {
         return res.status(400).json({
             erro: "Todos os campos são obrigatórios"
         });
@@ -205,30 +191,50 @@ app.put('/api/jogos/:id', (req, res) => {
     }
 
     //Validação ano e nota positivos
-    if(anoNum <= 0 || notaNum <= 0){
+    if (anoNum <= 0 || notaNum <= 0) {
         return res.status(400).json({
             erro: "Ano e nota devem ser valores positivos"
         });
     }
 
     //Validação tamanho mínimo
-    if(titulo.length < 3){
+    if (titulo.length < 3) {
         return res.status(400).json({
             erro: "O título deve ter pelo menos 3 caracteres"
         });
     }
 
     //Atualizar os campos dos jogos
-    jogo.titulo = titulo;
-    jogo.desenvolvedora = desenvolvedora;
-    jogo.ano = anoNum;
-    jogo.genero = genero;
-    jogo.nota = notaNum;
+    try {
+        const stmt = db.prepare(`
+            UPDATE jogos
+            SET titulo = ?, desenvolvedora = ?, ano = ?, genero = ?, nota = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+        `);
 
-    //Retorna o jogo atualizado com 200 OK
-    res.json({
-        mensagem: "Jogo atualizado com sucesso", jogo
-    });
+        const result = stmt.run(
+            titulo,
+            desenvolvedora,
+            anoNum,
+            genero,
+            notaNum,
+            id
+        );
+
+        //Verifica se o jogo existe
+        if (result.changes === 0) {
+            return res.status(404).json({
+                erro: "Jogo não encontrado"
+            });
+        }
+
+        res.json({
+            mensagem: "Jogo atualizado com sucesso"
+        });
+
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
 });
 
 //DELETE /api/jogos/:id - deleta um dos jogos já existentes
