@@ -1,6 +1,6 @@
-# 🎮 API de Jogos
+# 🎮 API de Jogos com Node.js + SQLite
 
-API REST simples desenvolvida com Node.js e Express para gerenciar uma lista de jogos.
+Este projeto é uma API REST desenvolvida com **Node.js**, **Express** e **SQLite**, que permite realizar operações de **CRUD (Create, Read, Update, Delete)** em uma base de dados de jogos.
 
 ---
 
@@ -8,60 +8,93 @@ API REST simples desenvolvida com Node.js e Express para gerenciar uma lista de 
 
 * Node.js
 * Express
+* better-sqlite3
+* SQLite
 * Insomnia (para testes)
 
 ---
 
-## 📦 Como executar o projeto
+## 📂 Estrutura do projeto
 
-1. Clone o repositório:
+```
+/projeto
+├── .gitignore
+├── README.md
+├── api-jogos-sql.json   # Collection do Insomnia (testes com SQLite)
+├── api-jogos.json       # Collection do Insomnia (versão inicial)
+├── database.js          # Configuração do banco SQLite
+├── index.js             # Arquivo principal (rotas da API)
+├── jogos.db             # Banco de dados SQLite
+├── package.json
+├── package-lock.json
+└── seed.js              # Script para popular o banco
+```
+
+---
+
+## ⚙️ Como rodar o projeto na sua máquina
+
+### 1️⃣ Clonar o repositório
 
 ```bash
 git clone https://github.com/JulianaH17/API_Rest.git
-```
-
-2. Acesse a pasta:
-
-```bash
 cd API_Rest
 ```
 
-3. Instale as dependências:
+---
+
+### 2️⃣ Instalar as dependências
 
 ```bash
 npm install
 ```
 
-4. Inicie o servidor:
+---
+
+### 3️⃣ (Opcional) Popular o banco de dados
+
+```bash
+node seed.js
+```
+
+---
+
+### 4️⃣ Rodar o servidor
+
+```bash
+npm start
+```
+
+ou
 
 ```bash
 node index.js
 ```
 
-5. A API estará disponível em:
+---
 
-```bash
+### 5️⃣ Acessar a API
+
+Por padrão, o servidor roda em:
+
+```
 http://localhost:8000
 ```
 
 ---
 
-## 📌 Endpoints
+## 📌 Endpoints da API
 
 ### 🔹 GET /api/jogos
 
-Lista todos os jogos
+Lista todos os jogos (com filtros e paginação)
 
-#### Filtros opcionais:
+**Exemplos:**
 
-* `?categoria=FPS`
-* `?ordem=titulo`
-* `?direcao=desc`
-
-📌 Exemplo:
-
-```bash
-http://localhost:8000/api/jogos?categoria=FPS&ordem=titulo
+```
+/api/jogos
+/api/jogos?categoria=RPG
+/api/jogos?pagina=2&limite=5
 ```
 
 ---
@@ -70,27 +103,21 @@ http://localhost:8000/api/jogos?categoria=FPS&ordem=titulo
 
 Busca um jogo pelo ID
 
-📌 Exemplo:
-
-```bash
-http://localhost:8000/api/jogos/1
-```
-
 ---
 
 ### 🔹 POST /api/jogos
 
 Cria um novo jogo
 
-📌 Body (JSON):
+**Exemplo de body:**
 
 ```json
 {
-  "titulo": "Novo Jogo",
-  "desenvolvedora": "Empresa",
-  "ano": 2024,
-  "genero": "Ação",
-  "nota": 8
+  "titulo": "Minecraft",
+  "desenvolvedora": "Mojang",
+  "ano": 2011,
+  "genero": "Sandbox",
+  "nota": 10
 }
 ```
 
@@ -100,51 +127,39 @@ Cria um novo jogo
 
 Atualiza um jogo existente
 
-📌 Exemplo:
-
-```bash
-PUT http://localhost:8000/api/jogos/1
-```
-
 ---
 
 ### 🔹 DELETE /api/jogos/:id
 
-Remove um jogo
+Remove um jogo do banco
 
-📌 Exemplo:
+---
 
-```bash
-DELETE http://localhost:8000/api/jogos/1
+## 🧪 Testes com Insomnia
+
+O projeto possui um arquivo chamado:
+
+```
+api-jogos-sql.json
 ```
 
----
+👉 Esse arquivo é uma **collection do Insomnia** com todas as requisições prontas.
 
-## ⚠️ Validações
+### Como usar:
 
-* Todos os campos são obrigatórios
-* `ano` e `nota` devem ser números positivos
-* `titulo` deve ter pelo menos 3 caracteres
-
----
-
-## 🧪 Testes
-
-A collection do Insomnia está disponível no repositório:
-
-📄 `api-jogos.json`
-
-Importe no Insomnia para testar todos os endpoints.
+1. Abrir o Insomnia
+2. Clicar em **Import**
+3. Selecionar o arquivo `api-jogos-sql.json`
+4. Testar os endpoints da API
 
 ---
 
-## 📌 Observações
+## ⚠️ Observações
 
-* Os dados são armazenados em memória (não há banco de dados)
-* Ao reiniciar o servidor, os dados voltam ao estado inicial
+* O banco de dados é criado automaticamente ao iniciar a aplicação
+* O arquivo `node_modules` não é versionado (está no `.gitignore`)
+* O ID dos jogos é gerado automaticamente pelo SQLite
 
 ---
-
-## 👩‍💻 Autora
 
 Projeto desenvolvido por Juliana Hara.
